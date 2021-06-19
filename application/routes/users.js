@@ -7,7 +7,7 @@ const usersRepo = require('../repositories/users')
 
 
 router.get('/', async function(req, res, next) {
-  const limit=pareInt(req.query.limit) || 10;
+  const limit=parseInt(req.query.limit) || 10;
   const offset=parseInt(req.query.offset) || 1;
   res.send(await usersRepo.getUsers(offset , limit ))
 });

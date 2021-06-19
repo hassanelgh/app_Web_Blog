@@ -42,7 +42,7 @@ const { User } = require('../models')
 
 
    getUser(id) { 
-        return User.find(id)
+        return User.findByPk(id)
    },
 
    getUserByEmail(email) { 
@@ -52,15 +52,15 @@ const { User } = require('../models')
             }
         })
    },
-   addUser(user) {
-        UserExiste = this.getUserByEmail(user.email);
+   async addUser(user) {
+        UserExiste = await this.getUserByEmail(user.email);
         if(UserExiste)
             return {
                 status: 403,
                 message: 'User already exists'
             };
 
-        var UserCreate = await User.create(userDate)
+        var UserCreate = await User.create(user)
         return {
             status: 200,
             message: 'User added succesuflly',
@@ -68,8 +68,9 @@ const { User } = require('../models')
         }
     },
 
-   updateUser(user) { 
-       if( getUser(user.id)==NULL)
+   async updateUser(user) { 
+        UserExiste = await this.getUser(user.id);
+       if(!UserExiste)
        {
            return {
             status: 404,
@@ -87,8 +88,9 @@ const { User } = require('../models')
             user: UserUpdate
         }
    },
-   deleteUser(id) { 
-        if( getUser(id)==NULL)
+   async deleteUser(id) { 
+        UserExiste = await this.getUser(id);
+        if(!UserExiste)
         {
             return {
             status: 404,

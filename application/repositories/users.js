@@ -9,6 +9,7 @@ const { User } = require('../models')
    },
    // méthodes à implémenter
    getUsers(offset = 0, limit = 10) {
+       
         return User.findAll({
             offset: offset , limit:limit
         })
